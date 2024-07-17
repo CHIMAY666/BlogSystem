@@ -14,4 +14,7 @@ public interface CategoryService {
      */
     Map<String, Object> getBlogCategoryPage(Map<String, Object> params);
     Map<String, Object> getAllCategories();
+    Boolean saveCategory(String categoryName);
+    Boolean updateCategory(Integer categoryId, String categoryName);
+    Boolean deleteBatch(Integer[] ids);
 }

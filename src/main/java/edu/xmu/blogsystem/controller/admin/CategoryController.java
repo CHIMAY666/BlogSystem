@@ -6,6 +6,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -44,5 +45,52 @@ public class CategoryController {
         pageParams.put("page", page);
         pageParams.put("limit", limit);
         return Result.genSuccessResult(categoryService.getBlogCategoryPage(pageParams));
+    }
+
+    /**
+     * 分类保存
+     */
+    @RequestMapping(value = "/categories/save")
+    @ResponseBody
+    public Result save(@RequestParam("categoryName") String categoryName) {
+        if (!StringUtils.hasText(categoryName)) {
+            return Result.genFailResult("请输入分类名称！");
+        }
+        if (categoryService.saveCategory(categoryName)) {
+            return Result.genSuccessResult();
+        } else {
+            return Result.genFailResult("分类名称重复");
+        }
+    }
+    /**
+     * 分类修改
+     */
+    @RequestMapping(value = "/categories/update")
+    @ResponseBody
+    public Result update(@RequestParam("categoryId") Integer categoryId,
+                         @RequestParam("categoryName") String categoryName) {
+        if (!StringUtils.hasText(categoryName)) {
+            return Result.genFailResult("请输入分类名称！");
+        }
+        if (categoryService.updateCategory(categoryId, categoryName)) {
+            return Result.genSuccessResult();
+        } else {
+            return Result.genFailResult("分类名称重复");
+        }
+    }
+    /**
+     * 分类删除
+     */
+    @RequestMapping(value = "/categories/delete")
+    @ResponseBody
+    public Result delete(@RequestBody Integer[] ids) {
+        if (ids.length < 1) {
+            return Result.genFailResult("参数异常！");
+        }
+        if (categoryService.deleteBatch(ids)) {
+            return Result.genSuccessResult();
+        } else {
+            return Result.genFailResult("删除失败");
+        }
     }
 }
