@@ -9,7 +9,6 @@ import edu.xmu.blogsystem.service.CommentService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -76,12 +75,23 @@ public class AdminController {
             return "admin/login";
         }
     }
+    @GetMapping("/profile")
+    public String profile(HttpServletRequest request) {
+        Object userIdObject = request.getSession().getAttribute("loginUserId");
+        if (userIdObject == null) return "admin/login";
+        Integer loginUserId = (Integer) userIdObject;
+        AdminUser adminUser = adminUserService.getUserById(loginUserId);
+        if (adminUser == null) return "admin/login";
+        request.setAttribute("path", "profile");
+        request.setAttribute("loginUserName", adminUser.getUserName());
+        request.setAttribute("nickName", adminUser.getNickName());
+        return "admin/profile";
+    }
 
     /**
      * 修改密码
-     * @param originalPassword
-     * @param newPassword
-     * @return
+     * @param originalPassword 原密码
+     * @param newPassword 新密码
      */
     @PostMapping("/profile/password")
     @ResponseBody
@@ -104,9 +114,8 @@ public class AdminController {
 
     /**
      * 修改用户名、昵称
-     * @param userName
-     * @param nickName
-     * @return
+     * @param userName 用户名
+     * @param nickName 昵称
      */
     @PostMapping("/profile/name")
     @ResponseBody
@@ -117,6 +126,7 @@ public class AdminController {
         }
         Integer userId = (int) request.getSession().getAttribute("loginUserId");
         if (adminUserService.updateName(userId, userName, nickName)) {
+            request.setAttribute("nickName", nickName);
             return "success";
         } else {
             return "修改失败";
