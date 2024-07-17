@@ -62,10 +62,10 @@ CREATE TABLE `blog_comment` (
   `blog_id` int(11) NOT NULL DEFAULT '0' COMMENT '关联的blog主键',
   `commentator` varchar(50) NOT NULL DEFAULT '' COMMENT '评论者名称',
   `comment_body` varchar(200) NOT NULL DEFAULT '' COMMENT '评论内容',
-  `comment_create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '评论提交时间',
-  `reply_body` varchar(200) NOT NULL DEFAULT '' COMMENT '回复内容',
-  `reply_create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '回复时间',
-  `comment_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否审核通过 0-未审核 1-审核通过',
+  `comment_create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '评论提交时间',
+  `reply_body` varchar(200) DEFAULT '' COMMENT '回复内容',
+  `reply_create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '回复时间',
+  `comment_status` tinyint(4) DEFAULT '0' COMMENT '是否审核通过 0-未审核 1-审核通过',
   `is_deleted` tinyint(4) DEFAULT '0' COMMENT '是否删除 0-未删除 1-已删除',
   PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
