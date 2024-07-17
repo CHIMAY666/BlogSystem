@@ -78,4 +78,8 @@
         </set>
         where category_id = #{categoryId}
     </update>
+    <select id="getTotalCategories">
+        select count(*) from blog_category
+        where is_deleted=0
+    </select>
 </mapper>

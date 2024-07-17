@@ -11,4 +11,5 @@ public interface BlogCategoryMapper{
     BlogCategory selectById(Integer categoryId);
     BlogCategory selectByCategoryName(String categoryName);
     int updateById(BlogCategory record);
+    int getTotalCategories();
 }

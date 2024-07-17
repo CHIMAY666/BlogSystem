@@ -3,6 +3,9 @@ package edu.xmu.blogsystem.controller.admin;
 import cn.hutool.captcha.ShearCaptcha;
 import edu.xmu.blogsystem.entity.AdminUser;
 import edu.xmu.blogsystem.service.AdminUserService;
+import edu.xmu.blogsystem.service.CategoryService;
+import edu.xmu.blogsystem.service.CommentService;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +16,21 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    @Autowired
+    @Resource
     private AdminUserService adminUserService;
+    @Resource
+    private CategoryService categoryService;
+    @Resource
+    private CommentService commentService;
+    @GetMapping({"", "/", "/index", "/index.html"})
+    public String index(HttpServletRequest request) {
+        request.setAttribute("path", "index");
+        request.setAttribute("categoryCount", categoryService.getTotalCategories());
+        //request.setAttribute("blogCount", blogService.getTotalBlogs());
+        //request.setAttribute("tagCount", tagService.getTotalTags());
+        request.setAttribute("commentCount", commentService.getTotalComments());
+        return "admin/index";
+    }
     @GetMapping({"/login"})
     public String login() {
         return "admin/login";
