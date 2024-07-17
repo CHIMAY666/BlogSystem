@@ -6,6 +6,7 @@ import edu.xmu.blogsystem.entity.AdminUser;
 import edu.xmu.blogsystem.service.AdminUserService;
 import edu.xmu.blogsystem.service.CategoryService;
 import edu.xmu.blogsystem.service.CommentService;
+import edu.xmu.blogsystem.util.Result;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -95,10 +96,10 @@ public class AdminController {
      */
     @PostMapping("/profile/password")
     @ResponseBody
-    public String passwordUpdate(HttpServletRequest request, @RequestParam("originalPassword") String originalPassword,
+    public Result passwordUpdate(HttpServletRequest request, @RequestParam("originalPassword") String originalPassword,
                                  @RequestParam("newPassword") String newPassword) {
         if (!StringUtils.hasText(originalPassword) || !StringUtils.hasText(newPassword)) {
-            return "参数不能为空";
+            return Result.genFailResult("参数不能为空");
         }
         Integer loginUserId = (int) request.getSession().getAttribute("loginUserId");
         if (adminUserService.updatePassword(loginUserId, originalPassword, newPassword)) {
@@ -106,9 +107,9 @@ public class AdminController {
             request.getSession().removeAttribute("loginUserId");
             request.getSession().removeAttribute("loginUser");
             request.getSession().removeAttribute("errorMsg");
-            return "success";
+            return Result.genSuccessResult();
         } else {
-            return "修改失败";
+             return Result.genFailResult("修改失败");
         }
     }
 
@@ -119,17 +120,17 @@ public class AdminController {
      */
     @PostMapping("/profile/name")
     @ResponseBody
-    public String nameUpdate(HttpServletRequest request, @RequestParam("loginUserName") String userName,
+    public Result nameUpdate(HttpServletRequest request, @RequestParam("loginUserName") String userName,
                              @RequestParam("nickName") String nickName) {
         if (!StringUtils.hasText(userName) || !StringUtils.hasText(nickName)) {
-            return "参数不能为空";
+            return Result.genFailResult("参数不能为空");
         }
         Integer userId = (int) request.getSession().getAttribute("loginUserId");
         if (adminUserService.updateName(userId, userName, nickName)) {
             request.setAttribute("nickName", nickName);
-            return "success";
+            return Result.genSuccessResult();
         } else {
-            return "修改失败";
+            return Result.genFailResult("修改失败");
         }
     }
 
