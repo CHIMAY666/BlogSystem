@@ -72,17 +72,6 @@ function validCN_ENString2_100(str) {
     return pattern.test(str.trim());
 }
 
-/**
- * 用户密码验证 最少6位，最多20位字母或数字、特殊字符的组合
- *
- * @param password
- * @returns {boolean}
- */
-function validPassword(password) {
-    let pattern = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)(?!([^(0-9a-zA-Z)])+$)^.{6,20}$/;
-    return pattern.test(password.trim());
-}
-
 <!-- 正则验证 end-->
 
 /**
