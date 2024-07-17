@@ -16,7 +16,7 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class CategoryController {
     @Resource
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     /**
      * 跳转到分类管理页面
@@ -39,12 +39,9 @@ public class CategoryController {
             // 不满足分页参数的要求，返回整个分类列表
             return Result.genSuccessResult(categoryService.getAllCategories());
         }
-        Map<String, Object> pageParams = new HashMap<>();
         Integer page = Integer.parseInt((String) params.get("page"));
         Integer limit = Integer.parseInt((String) params.get("limit"));
-        pageParams.put("page", page);
-        pageParams.put("limit", limit);
-        return Result.genSuccessResult(categoryService.getBlogCategoryPage(pageParams));
+        return Result.genSuccessResult(categoryService.getBlogCategoryPage(page, limit));
     }
 
     /**

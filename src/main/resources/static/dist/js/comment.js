@@ -7,7 +7,6 @@ $(function () {
             {label: '评论内容', name: 'commentBody', index: 'commentBody', width: 120},
             {label: '评论时间', name: 'commentCreateTime', index: 'commentCreateTime', width: 60},
             {label: '评论人名称', name: 'commentator', index: 'commentator', width: 60},
-            {label: '评论人邮箱', name: 'email', index: 'email', width: 90},
             {label: '状态', name: 'commentStatus', index: 'commentStatus', width: 60, formatter: statusFormatter},
             {label: '回复内容', name: 'replyBody', index: 'replyBody', width: 120},
         ],
@@ -41,10 +40,10 @@ $(function () {
         $("#jqGrid").setGridWidth($(".card-body").width());
     });
     function statusFormatter(cellvalue) {
-        if (cellvalue === 0) {
+        if (cellvalue == 0) {
             return "<button type=\"button\" class=\"btn btn-block btn-secondary btn-sm\" style=\"width: 80%;\">待审核</button>";
         }
-        else if (cellvalue === 1) {
+        else if (cellvalue == 1) {
             return "<button type=\"button\" class=\"btn btn-block btn-success btn-sm\" style=\"width: 80%;\">已审核</button>";
         }
     }

@@ -4,6 +4,7 @@ import cn.hutool.captcha.ShearCaptcha;
 import edu.xmu.blogsystem.dao.BlogTagMapper;
 import edu.xmu.blogsystem.entity.AdminUser;
 import edu.xmu.blogsystem.service.AdminUserService;
+import edu.xmu.blogsystem.service.BlogService;
 import edu.xmu.blogsystem.service.CategoryService;
 import edu.xmu.blogsystem.service.CommentService;
 import edu.xmu.blogsystem.util.Result;
@@ -22,6 +23,8 @@ public class AdminController {
     @Resource
     private CategoryService categoryService;
     @Resource
+    private BlogService blogService;
+    @Resource
     private CommentService commentService;
     @Resource
     private BlogTagMapper tagService;
@@ -29,7 +32,7 @@ public class AdminController {
     public String index(HttpServletRequest request) {
         request.setAttribute("path", "index");
         request.setAttribute("categoryCount", categoryService.getTotalCategories());
-        //request.setAttribute("blogCount", blogService.getTotalBlogs());
+        request.setAttribute("blogCount", blogService.getTotalBlogs());
         request.setAttribute("tagCount", tagService.getTotalTags());
         request.setAttribute("commentCount", commentService.getTotalComments());
         return "admin/index";

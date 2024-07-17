@@ -21,9 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Resource
     BlogMapper blogMapper;
     @Override
-    public Map<String, Object> getBlogCategoryPage(Map<String, Object> params) {
-        Integer page = (Integer) params.get("page");
-        Integer limit = (Integer) params.get("limit");
+    public Map<String, Object> getBlogCategoryPage(Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
         List<BlogCategory> list = blogCategoryMapper.getAllCategories();
         PageInfo<BlogCategory> pageInfo = new PageInfo<>(list);
