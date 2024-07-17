@@ -14,6 +14,12 @@ public class AdminUserServiceImpl implements AdminUserService {
     public AdminUser login(String userName, String password) {
         return adminUserMapper.login(userName, password);
     }
+
+    @Override
+    public AdminUser getUserById(Integer userId) {
+        return adminUserMapper.selectByPrimaryKey(userId);
+    }
+
     @Override
     public Boolean updatePassword(Integer userId, String originalPassword, String newPassword) {
         AdminUser adminUser = adminUserMapper.selectByPrimaryKey(userId);

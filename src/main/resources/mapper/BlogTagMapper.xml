@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.xmu.blogsystem.dao.BlogTagMapper">
+    <select id="findTagList">
+        select *
+        from blog_tag
+        where is_deleted=0
+        order by tag_id desc
+    </select>
+    <select id="getTagCount">
+        SELECT t_r.*,t.tag_name FROM
+            (SELECT r.tag_id,r.tag_count FROM
+                (SELECT tag_id ,COUNT(*) AS tag_count FROM
+                    (SELECT tr.tag_id FROM blog_tag_relation tr LEFT JOIN tb_blog b ON tr.blog_id = b.blog_id WHERE b.is_deleted=0)
+                        trb GROUP BY tag_id) r ORDER BY tag_count DESC LIMIT 20 ) AS t_r LEFT JOIN blog_tag t ON t_r.tag_id = t.tag_id WHERE t.is_deleted=0
+    </select>
+    <select id="getTotalTags">
+        select count(*)  from blog_tag
+        where is_deleted=0
+    </select>
+    <select id="selectByPrimaryKey">
+        select *
+        from blog_tag
+        where tag_id = #{tagId} AND is_deleted = 0
+    </select>
+    <select id="selectByTagName">
+        select *
+        from blog_tag
+        where tag_name = #{tagName} AND is_deleted = 0
+    </select>
+    <update id="deleteByPrimaryKey">
+        update blog_tag set is_deleted = 1
+        where tag_id = #{tagId}
+    </update>
+    <update id="deleteBatch">
+        update blog_tag
+        set is_deleted=1 where tag_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <insert id="batchInsertBlogTag">
+        INSERT into blog_tag(tag_name)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.tagName})
+        </foreach>
+    </insert>
+    <insert id="insert">
+        insert into blog_tag (tag_id, tag_name, is_deleted, create_time)
+        values (#{tagId}, #{tagName}, #{isDeleted}, #{createTime})
+    </insert>
+    <insert id="insertSelective">
+        insert into blog_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tagId != null">
+                tag_id,
+            </if>
+            <if test="tagName != null">
+                tag_name,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tagId != null">
+                #{tagId},
+            </if>
+            <if test="tagName != null">
+                #{tagName},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective">
+        update blog_tag
+        <set>
+            <if test="tagName != null">
+                tag_name = #{tagName},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where tag_id = #{tagId}
+    </update>
+    <update id="updateByPrimaryKey">
+        update blog_tag
+        set tag_name = #{tagName},
+            is_deleted = #{isDeleted},
+            create_time = #{createTime}
+        where tag_id = #{tagId}
+    </update>
+</mapper>
