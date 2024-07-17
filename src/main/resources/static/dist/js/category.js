@@ -5,7 +5,6 @@ $(function () {
         colModel: [
             {label: 'id', name: 'categoryId', index: 'categoryId', width: 50, key: true, hidden: true},
             {label: '分类名称', name: 'categoryName', index: 'categoryName', width: 240},
-            {label: '分类图标', name: 'categoryIcon', index: 'categoryIcon', width: 120, formatter: imgFormatter},
             {label: '添加时间', name: 'createTime', index: 'createTime', width: 120}
         ],
         height: 560,
@@ -55,16 +54,13 @@ $(function () {
 
 });
 
-function imgFormatter(cellvalue) {
-    return "<a href='" + cellvalue + "'> <img src='" + cellvalue + "' height=\"64\" width=\"64\" alt='icon'/></a>";
-}
-
 /**
  * jqGrid重新加载
  */
 function reload() {
-    let page = $("#jqGrid").jqGrid('getGridParam', 'page');
-    $("#jqGrid").jqGrid('setGridParam', {
+    let jq_grid = $("#jqGrid");
+    let page = jq_grid.jqGrid('getGridParam', 'page');
+    jq_grid.jqGrid('setGridParam', {
         page: page
     }).trigger("reloadGrid");
 }
@@ -79,8 +75,9 @@ function categoryAdd() {
 $('#saveButton').click(function () {
     let categoryName = $("#categoryName").val();
     if (!validCN_ENString2_18(categoryName)) {
-        $('#edit-error-msg').css("display", "block");
-        $('#edit-error-msg').html("请输入符合规范的分类名称！");
+        let err_msg = $('#edit-error-msg');
+        err_msg.css("display", "block");
+        err_msg.html("请输入符合规范的分类名称！");
     } else {
         let params = $("#categoryForm").serialize();
         let url = '/admin/categories/save';
