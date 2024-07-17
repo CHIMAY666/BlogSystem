@@ -7,6 +7,8 @@ import edu.xmu.blogsystem.dao.BlogTagRelationMapper;
 import edu.xmu.blogsystem.entity.BlogTag;
 import edu.xmu.blogsystem.entity.BlogTagCount;
 import edu.xmu.blogsystem.service.TagService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -18,6 +20,7 @@ import java.util.Objects;
 
 @Service
 public class TagServiceImpl implements TagService {
+    Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private BlogTagMapper blogTagMapper;
     @Autowired
@@ -26,6 +29,7 @@ public class TagServiceImpl implements TagService {
     public Map<String, Object> getBlogTagPage(Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
         List<BlogTag>list = blogTagMapper.findTagList();
+        logger.error(list.toString());
         int total = blogTagMapper.getTotalTags();
         Map<String, Object>result = new HashMap<>();
         result.put("list",list);

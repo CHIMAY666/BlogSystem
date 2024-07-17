@@ -27,7 +27,7 @@
         <appender-ref ref="file" />
     </root>
 
-    <!-- 用来设置某一个包或者具体的某一个类的日志打印级别-->
-    <logger name="edu.xmu" level="debug"/> <!--开发环境:打印控制台-->
-    <logger name="org.springframework.web" level="debug"/>
+<!--    &lt;!&ndash; 用来设置某一个包或者具体的某一个类的日志打印级别&ndash;&gt;-->
+<!--    <logger name="edu.xmu" level="debug"/> &lt;!&ndash;开发环境:打印控制台&ndash;&gt;-->
+<!--    <logger name="org.springframework.web" level="debug"/>-->
 </configuration>
