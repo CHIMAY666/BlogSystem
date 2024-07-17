@@ -17,4 +17,5 @@ public interface CategoryService {
     Boolean saveCategory(String categoryName);
     Boolean updateCategory(Integer categoryId, String categoryName);
     Boolean deleteBatch(Integer[] ids);
+    int getTotalCategories();
 }

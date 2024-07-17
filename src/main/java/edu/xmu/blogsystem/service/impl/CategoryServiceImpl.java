@@ -76,4 +76,9 @@ public class CategoryServiceImpl implements CategoryService {
         //删除分类数据
         return blogCategoryMapper.deleteBatch(ids) > 0;
     }
+
+    @Override
+    public int getTotalCategories() {
+        return blogCategoryMapper.getTotalCategories();
+    }
 }
