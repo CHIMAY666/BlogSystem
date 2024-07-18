@@ -66,7 +66,7 @@
     <insert id="batchInsert">
         INSERT into blog_tag_relation(blog_id,tag_id)
         VALUES
-        <foreach collection="relationList" item="item" separator=",">
+        <foreach collection="blogTagRelationList" item="item" separator=",">
             (#{item.blogId},#{item.tagId})
         </foreach>
     </insert>

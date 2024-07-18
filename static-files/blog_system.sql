@@ -27,6 +27,7 @@ DROP TABLE IF EXISTS `blog`;
 CREATE TABLE `blog` (
   `blog_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '博客主键id',
   `blog_title` varchar(200) NOT NULL COMMENT '博客标题',
+  `blog_cover_image` varchar(200) NOT NULL COMMENT '博客封面图',
   `blog_content` mediumtext NOT NULL COMMENT '博客内容',
   `blog_category_id` int(11) NOT NULL COMMENT '博客分类id',
   `blog_category_name` varchar(50) NOT NULL COMMENT '博客分类名称',

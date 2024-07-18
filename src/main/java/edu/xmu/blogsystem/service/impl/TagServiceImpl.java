@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.xmu.blogsystem.dao.BlogTagMapper;
 import edu.xmu.blogsystem.dao.BlogTagRelationMapper;
+import edu.xmu.blogsystem.entity.BlogCategory;
 import edu.xmu.blogsystem.entity.BlogTag;
 import edu.xmu.blogsystem.entity.BlogTagCount;
 import edu.xmu.blogsystem.service.TagService;
@@ -28,12 +29,11 @@ public class TagServiceImpl implements TagService {
     @Override
     public Map<String, Object> getBlogTagPage(Integer page, Integer limit) {
         PageHelper.startPage(page, limit);
-        List<BlogTag>list = blogTagMapper.findTagList();
-        logger.error(list.toString());
-        int total = blogTagMapper.getTotalTags();
-        Map<String, Object>result = new HashMap<>();
-        result.put("list",list);
-        result.put("totalCount",total);
+        List<BlogTag> list = blogTagMapper.findTagList();
+        PageInfo<BlogTag> pageInfo = new PageInfo<>(list);
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", list);
+        result.put("totalCount", pageInfo.getTotal());
         return result;
     }
     @Override

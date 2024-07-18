@@ -7,8 +7,8 @@ import java.util.Map;
 
 public interface BlogCommentMapper {
     Boolean addComment(BlogComment comment);
-    List<BlogComment> findBlogCommentList(Integer blogId);
-    int getTotalBlogComments(Map map);
+    List<BlogComment> findBlogCommentList(Map<String, Object> map);
+    int getTotalBlogComments(Map<String, Object> map);
     int checkDone(Integer[] ids);
     int deleteBatch(Integer[] ids);
     BlogComment selectByPrimaryKey(Integer commentId);

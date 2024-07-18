@@ -47,13 +47,19 @@ public class CommentServiceImpl implements CommentService {
     }
     @Override
     public Map<String, Object> getCommentPageByBlogIdAndPageNum(Integer blogId, Integer page, Integer limit) {
-        PageHelper.startPage(page, limit);
+        Map<String, Object> params = new HashMap<>();
+        params.put("blogId", blogId);
+        params.put("commentStatus", 1);//过滤审核通过的数据
         //获取所有评论
-        List<BlogComment>list = blogCommentMapper.findBlogCommentList(blogId);
-        PageInfo<BlogComment>pageInfo = new PageInfo<>(list);
-        Map<String, Object>result = new HashMap<>();
+        PageHelper.startPage(page, limit);
+        List<BlogComment>list = blogCommentMapper.findBlogCommentList(params);
+        PageInfo<BlogComment> pageInfo = new PageInfo<>(list);
+        Map<String, Object> result = new HashMap<>();
         result.put("list", list);
         result.put("totalCount", pageInfo.getTotal());
+        result.put("totalPage", pageInfo.getPages());
+        result.put("currPage", page);
+        result.put("pageSize", limit);
         return result;
     }
 }

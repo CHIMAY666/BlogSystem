@@ -40,10 +40,6 @@
                                        style="width: 100%;">
                             </div>
                             <div class="form-group" style="display:flex;">
-                                <input type="text" class="form-control col-sm-6" id="blogSubUrl"
-                                       name="blogSubUrl"
-                                       th:value="${blog!=null and blog.blogSubUrl!=null }?${blog.blogSubUrl}: ''"
-                                       placeholder="请输入自定义路径,如:springboot-mybatis,默认为id"> &nbsp;&nbsp;
                                 <select class="form-control select2" style="width: 100%;" id="blogCategoryId"
                                         data-placeholder="请选择分类...">
                                     <th:block th:if="${null == categories}">
@@ -61,7 +57,8 @@
                             </div>
                             <div class="form-group" id="blog-editormd">
                                 <textarea style="display:none;"
-                                          th:utext="${blog!=null and blog.blogContent !=null}?${blog.blogContent}: ''"></textarea>
+                                          th:utext="${blog!=null and blog.blogContent !=null}?${blog.blogContent}: ''">
+                                </textarea>
                             </div>
                             <div class="form-group">
                                 <!-- 按钮 -->
@@ -93,7 +90,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                         <th:block th:if="${null == blog}">
-                                            <img id="blogCoverImage" src="/admin/dist/img/img-upload.png"
+                                            <img id="blogCoverImage" src="/dist/img/img-upload.png"
                                                  style="height: 64px;width: 64px;">
                                         </th:block>
                                         <th:block th:unless="${null == blog}">
@@ -105,9 +102,6 @@
                                 <br>
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        <button class="btn btn-info" style="margin-bottom: 5px;" id="uploadCoverImage">
-                                            <i class="fa fa-picture-o"></i>&nbsp;上传封面
-                                        </button>
                                         <button class="btn btn-secondary" style="margin-bottom: 5px;"
                                                 id="randomCoverImage"><i
                                                 class="fa fa-random"></i>&nbsp;随机封面

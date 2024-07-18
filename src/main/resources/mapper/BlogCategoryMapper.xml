@@ -55,6 +55,15 @@
         from blog_category
         where category_id = #{categoryId} AND is_deleted = 0
     </select>
+    <select id="selectByIds">
+        select *
+        from blog_category
+        where category_id IN
+        <foreach collection="categoryIds" item="item" index="index"
+                 open="(" separator="," close=")">#{item}
+        </foreach>
+        AND is_deleted = 0
+    </select>
     <select id="selectByCategoryName">
         select *
         from blog_category

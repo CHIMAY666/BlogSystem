@@ -39,7 +39,7 @@
             #{id}
         </foreach>
     </update>
-    <insert id="batchInsertBlogTag">
+    <insert id="batchInsertBlogTag" useGeneratedKeys="true" keyProperty="tagId">
         INSERT into blog_tag(tag_name)
         VALUES
         <foreach collection="list" item="item" separator=",">

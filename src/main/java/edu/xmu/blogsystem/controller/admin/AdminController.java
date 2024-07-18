@@ -54,19 +54,19 @@ public class AdminController {
                         @RequestParam String password,
                         @RequestParam String verifyCode,
                         HttpSession session) {
-        if (!StringUtils.hasText(verifyCode)) {
-            session.setAttribute("errorMsg", "验证码不能为空");
-            return "admin/login";
-        }
+//        if (!StringUtils.hasText(verifyCode)) {
+//            session.setAttribute("errorMsg", "验证码不能为空");
+//            return "admin/login";
+//        }
         if (!StringUtils.hasText(userName) || !StringUtils.hasText(password)) {
             session.setAttribute("errorMsg", "用户名或密码不能为空");
             return "admin/login";
         }
-        ShearCaptcha shearCaptcha = (ShearCaptcha) session.getAttribute("verifyCode");
-        if (shearCaptcha == null || !shearCaptcha.verify(verifyCode)) {
-            session.setAttribute("errorMsg", "验证码错误");
-            return "admin/login";
-        }
+//        ShearCaptcha shearCaptcha = (ShearCaptcha) session.getAttribute("verifyCode");
+//        if (shearCaptcha == null || !shearCaptcha.verify(verifyCode)) {
+//            session.setAttribute("errorMsg", "验证码错误");
+//            return "admin/login";
+//        }
         AdminUser adminUser = adminUserService.login(userName, password);
         if (adminUser != null) {
             session.setAttribute("loginUser", adminUser.getNickName());

@@ -12,7 +12,6 @@ import java.util.Date;
 public class Blog {
     private Integer blogId;
     private String blogTitle;
-    private String blogSubUrl;
     private String blogCoverImage;
     private Integer blogCategoryId;
     private String blogCategoryName;
@@ -28,10 +27,6 @@ public class Blog {
 
     public void setBlogTitle(String blogTitle) {
         this.blogTitle = blogTitle == null ? null : blogTitle.trim();
-    }
-
-    public void setBlogSubUrl(String blogSubUrl) {
-        this.blogSubUrl = blogSubUrl == null ? null : blogSubUrl.trim();
     }
 
     public void setBlogCoverImage(String blogCoverImage) {

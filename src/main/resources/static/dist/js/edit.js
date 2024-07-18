@@ -14,54 +14,13 @@ $(function () {
         width: "100%",
         height: 640,
         syncScrolling: "single",
-        path: "/admin/plugins/editormd/lib/",
+        path: "/plugins/editormd/lib/",
         toolbarModes: 'full',
-        /**图片上传配置*/
-        imageUpload: true,
-        imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"], //图片上传格式
-        imageUploadURL: "/admin/blogs/md/uploadfile",
-        onload: function (obj) { //上传成功之后的回调
-        }
-    });
-
-    // 编辑器粘贴上传
-    document.getElementById("blog-editormd").addEventListener("paste", function (e) {
-        let clipboardData = e.clipboardData;
-        if (clipboardData) {
-            let items = clipboardData.items;
-            if (items && items.length > 0) {
-                for (var item of items) {
-                    if (item.type.startsWith("image/")) {
-                        var file = item.getAsFile();
-                        if (!file) {
-                            alert("请上传有效文件");
-                            return;
-                        }
-                        let formData = new FormData();
-                        formData.append('file', file);
-                        let xhr = new XMLHttpRequest();
-                        xhr.open("POST", "/admin/upload/file");
-                        xhr.onreadystatechange = function () {
-                            if (xhr.readyState == 4 && xhr.status == 200) {
-                                let json=JSON.parse(xhr.responseText);
-                                if (json.resultCode == 200) {
-                                    blogEditor.insertValue("![](" + json.data + ")");
-                                } else {
-                                    alert("上传失败");
-                                }
-                            }
-                        }
-                        xhr.send(formData);
-                    }
-                }
-            }
-        }
     });
 });
 
 $('#confirmButton').click(function () {
     let blogTitle = $('#blogName').val();
-    let blogSubUrl = $('#blogSubUrl').val();
     let blogCategoryId = $('#blogCategoryId').val();
     let blogTags = $('#blogTags').val();
     let blogContent = blogEditor.getMarkdown();
@@ -73,12 +32,6 @@ $('#confirmButton').click(function () {
     }
     if (!validLength(blogTitle, 150)) {
         swal("标题过长", {
-            icon: "error",
-        });
-        return;
-    }
-    if (!validLength(blogSubUrl, 150)) {
-        swal("路径过长", {
             icon: "error",
         });
         return;
@@ -119,14 +72,13 @@ $('#confirmButton').click(function () {
 $('#saveButton').click(function () {
     let blogId = $('#blogId').val();
     let blogTitle = $('#blogName').val();
-    let blogSubUrl = $('#blogSubUrl').val();
     let blogCategoryId = $('#blogCategoryId').val();
     let blogTags = $('#blogTags').val();
     let blogContent = blogEditor.getMarkdown();
     let blogCoverImage = $('#blogCoverImage')[0].src;
     let blogStatus = $("input[name='blogStatus']:checked").val();
     let enableComment = $("input[name='enableComment']:checked").val();
-    if (isNull(blogCoverImage) || blogCoverImage.indexOf('img-upload') != -1) {
+    if (isNull(blogCoverImage) || blogCoverImage.indexOf('img-upload') !== -1) {
         swal("封面图片不能为空", {
             icon: "error",
         });
@@ -135,7 +87,7 @@ $('#saveButton').click(function () {
     let url = '/admin/blogs/save';
     let swlMessage = '保存成功';
     let data = {
-        "blogTitle": blogTitle, "blogSubUrl": blogSubUrl, "blogCategoryId": blogCategoryId,
+        "blogTitle": blogTitle, "blogCategoryId": blogCategoryId,
         "blogTags": blogTags, "blogContent": blogContent, "blogCoverImage": blogCoverImage, "blogStatus": blogStatus,
         "enableComment": enableComment
     };
@@ -145,7 +97,6 @@ $('#saveButton').click(function () {
         data = {
             "blogId": blogId,
             "blogTitle": blogTitle,
-            "blogSubUrl": blogSubUrl,
             "blogCategoryId": blogCategoryId,
             "blogTags": blogTags,
             "blogContent": blogContent,
@@ -197,8 +148,8 @@ $('#cancelButton').click(function () {
  * 随机封面功能
  */
 $('#randomCoverImage').click(function () {
-    let rand = Math.random() * 40 + 1;
+    let rand = parseInt((Math.random() * 40 + 1).toString());
     let cover_image = $("#blogCoverImage");
-    cover_image.attr("src", '/admin/dist/img/rand/' + rand + ".jpg");
+    cover_image.attr("src", '/dist/img/rand/' + rand + ".jpg");
     cover_image.attr("style", "width:160px ;height: 120px;display:block;");
 });

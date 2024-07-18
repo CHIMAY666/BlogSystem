@@ -6,6 +6,11 @@
         from blog
         where is_deleted = 0
     </select>
+    <select id="selectById">
+        select *
+        from blog
+        where blog_id = #{blogId} and is_deleted = 0
+    </select>
     <update id="updateBlogCategories">
         update blog
         set blog_category_id = #{categoryId},
@@ -46,6 +51,9 @@
             <if test="blogTitle != null">
                 blog_title,
             </if>
+            <if test="blogCoverImage != null">
+                blog_cover_image,
+            </if>
             <if test="blogCategoryId != null">
                 blog_category_id,
             </if>
@@ -84,6 +92,9 @@
             <if test="blogTitle != null">
                 #{blogTitle},
             </if>
+            <if test="blogCoverImage != null">
+                #{blogCoverImage},
+            </if>
             <if test="blogCategoryId != null">
                 #{blogCategoryId},
             </if>
@@ -116,4 +127,76 @@
             </if>
         </trim>
     </insert>
+    <update id="updateById" parameterType="edu.xmu.blogsystem.entity.Blog">
+        update blog
+        <set>
+            <if test="blogTitle != null">
+                blog_title = #{blogTitle},
+            </if>
+            <if test="blogCoverImage != null">
+                blog_cover_image = #{blogCoverImage},
+            </if>
+            <if test="blogContent != null">
+                blog_content = #{blogContent},
+            </if>
+            <if test="blogCategoryId != null">
+                blog_category_id = #{blogCategoryId},
+            </if>
+            <if test="blogCategoryName != null">
+                blog_category_name = #{blogCategoryName},
+            </if>
+            <if test="blogTags != null">
+                blog_tags = #{blogTags},
+            </if>
+            <if test="blogStatus != null">
+                blog_status = #{blogStatus},
+            </if>
+            <if test="blogViews != null">
+                blog_views = #{blogViews},
+            </if>
+            <if test="enableComment != null">
+                enable_comment = #{enableComment},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="blogContent != null">
+                blog_content = #{blogContent},
+            </if>
+        </set>
+        where blog_id = #{blogId}
+    </update>
+    <select id="findBlogList">
+        select *
+        from blog
+        where is_deleted=0
+        <if test="keyword!=null">
+            AND (blog_title like CONCAT('%',#{keyword},'%' ) or blog_category_name like CONCAT('%',#{keyword},'%' ))
+        </if>
+        <if test="blogStatus!=null">
+            AND blog_status = #{blogStatus}
+        </if>
+        <if test="blogCategoryId!=null">
+            AND blog_category_id = #{blogCategoryId}
+        </if>
+        order by blog_id desc
+    </select>
+    <select id="findBlogListByType">
+        select *
+        from blog
+        where is_deleted=0 AND blog_status = 1
+        <if test="type!=null and type==0">
+            order by blog_views desc
+        </if>
+        <if test="type!=null and type==1">
+            order by blog_id desc
+        </if>
+        limit #{limit}
+    </select>
 </mapper>

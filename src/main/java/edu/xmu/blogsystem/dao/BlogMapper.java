@@ -9,6 +9,7 @@ import java.util.Map;
 
 public interface BlogMapper {
     List<Blog> getAllBlogs();
+    Blog selectById(Integer blogId);
 
     void updateBlogCategories(@Param("categoryName") String categoryName, @Param("categoryId") Integer categoryId, @Param("ids")Integer[] ids);
 
@@ -17,4 +18,10 @@ public interface BlogMapper {
     Integer deleteBatch(Integer[] ids);
 
     Integer insert(Blog blog);
+
+    Integer updateById(Blog blogForUpdate);
+
+    List<Blog> findBlogList(Map<String, Object> params);
+
+    List<Blog> findBlogListByType(@Param("type") int type, @Param("limit") int limit);
 }
